@@ -5,6 +5,11 @@ public class Mission {
     String Key;
     double X;
     double Y;
+    public Mission(String name,double x, double y){
+        Name=name;
+        X=x;
+        Y=y;
+    }
 
     public String getAdress(){
         return Name;
