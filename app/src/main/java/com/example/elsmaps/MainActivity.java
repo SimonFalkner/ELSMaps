@@ -3,7 +3,7 @@ package com.example.elsmaps;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -12,6 +12,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleMap.OnInfoWindowClickListener {
     private GoogleMap mMap;
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
+
         for (Mission mission:missionList
              ) {
             String snippedString=mission.X+"\n"+mission.Y;
@@ -75,15 +77,42 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Toast.makeText(this, "Info window clicked",
                 Toast.LENGTH_SHORT).show();
 
+        createNewDialog(marker);
+
     }
 
 
-    public void createNewDialog(){
+    public void createNewDialog(Marker marker){
         dialogBuilder=new AlertDialog.Builder(this);
         final View missionPopUpView=getLayoutInflater().inflate(R.layout.popup,null);
         xCoord=(TextView) missionPopUpView.findViewById(R.id.popup_X);
         yCoord=(TextView) missionPopUpView.findViewById(R.id.popup_Y);
         missionName=(TextView) missionPopUpView.findViewById(R.id.popup_name);
-        btnOpenNavigation=(Button) missionPopUpView.findViewById(R.id.pupup_NavButton);
+
+        btnOpenNavigation=(Button) missionPopUpView.findViewById(R.id.popup_NavButton);
+
+        missionName.setText(marker.getTitle());
+        LatLng markerPosition = marker.getPosition();
+        xCoord.setText(String.valueOf(markerPosition.latitude));
+        yCoord.setText(String.valueOf(markerPosition.longitude));
+        dialogBuilder.setView(missionPopUpView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        btnOpenNavigation.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                startNavigation(markerPosition);
+            }
+        });
+
+
+    }
+    public void startNavigation(LatLng markerPosition){
+        String navigationString = markerPosition.latitude +","+ markerPosition.longitude;
+        Uri gmmIntentUri= Uri.parse("google.navigation:q="+navigationString);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW,gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 }

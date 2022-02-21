@@ -4,32 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:minHeight="500dp">
 
     <TextView
         android:id="@+id/popup_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.226"
-        tools:layout_editor_absoluteX="0dp"
-        android:textSize="24sp"/>
+        tools:layout_editor_absoluteX="0dp" />
 
     <TextView
         android:id="@+id/popup_X"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/popup_name"
         app:layout_constraintVertical_bias="0.245"
-        tools:layout_editor_absoluteX="65dp"
-        android:textSize="24sp"/>
+        tools:layout_editor_absoluteX="65dp" />
 
     <TextView
         android:id="@+id/popup_Y"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/popup_X"
@@ -37,12 +40,12 @@
         tools:layout_editor_absoluteX="16dp" />
 
     <Button
-        android:id="@+id/pupup_NavButton"
+        android:id="@+id/popup_NavButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Navigiern"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pupup_Y" />
+        app:layout_constraintTop_toBottomOf="@+id/popup_Y" />
 </androidx.constraintlayout.widget.ConstraintLayout>
