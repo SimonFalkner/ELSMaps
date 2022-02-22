@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        Mission mission1 = new Mission("Mission1", 48.8,14.5);
-        Mission mission2 = new Mission("Mission2", 47.9,14.2);
+        Mission mission1 = new Mission("Mission1", 48.34536,14.16017);
+        Mission mission2 = new Mission("Mission2", 48.35485,14.16251);
         missionList = new ArrayList<Mission>();
         missionList.add(mission1);
         missionList.add(mission2);
@@ -54,13 +54,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         for (Mission mission:missionList
              ) {
-            String snippedString=mission.X+"\n"+mission.Y;
             mMap.addMarker(new MarkerOptions()
             .position(new LatLng(mission.X,mission.Y))
             .title(mission.Name)
-            .snippet(snippedString))
+            .snippet(String.valueOf(mission.X)))
                     .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(mission.X,mission.Y)));
+            mMap.moveCamera(CameraUpdateFactory.zoomTo(15.0f));
             googleMap.setOnInfoWindowClickListener(this);
         }
 
