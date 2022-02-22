@@ -39,13 +39,42 @@
         app:layout_constraintVertical_bias="0.372"
         tools:layout_editor_absoluteX="16dp" />
 
-    <Button
-        android:id="@+id/popup_NavButton"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Navigiern"
+        android:gravity="bottom"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/popup_Y" />
+        app:layout_constraintTop_toBottomOf="@+id/popup_Y">
+
+
+        <Button
+            android:id="@+id/popup_NavButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:text="Navigiern" />
+
+        <Button
+            android:id="@+id/popup_close"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="Schließen"
+            android:textColor="#000000" />
+
+
+    </LinearLayout>
+
+
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
