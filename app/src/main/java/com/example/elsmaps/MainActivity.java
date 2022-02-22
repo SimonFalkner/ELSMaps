@@ -32,6 +32,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -55,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private AlertDialog dialog;
     private TextView xCoord,yCoord,missionName;
     private Button btnOpenNavigation, btnClosePopUp;
+    private Chip chipSatalite, chipNormal;
+    private ChipGroup chipGroup;
     FusedLocationProviderClient locationClient;
     SupportMapFragment mapFragment;
     private CameraPosition cameraPosition;
@@ -78,13 +82,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_main);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
+        chipGroup = findViewById(R.id.chip_group);
+
+        chipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(ChipGroup group, int checkedId) {
+                if(group == null){return;}
+                if(checkedId==R.id.chip_normal){
+                    mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+                }else{
+                    mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                }
+            }
+        });
+
 
         LatLng currentLocation;
         //Initialize fused location
@@ -111,15 +130,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onSaveInstanceState(outState);
     }
 
-
-
-
-
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
         mMap.setTrafficEnabled(true);
         for (Mission mission:missionList
              ) {
@@ -143,7 +158,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         getLocationPermission();
         getDeviceLocation();
         updateLocationUI();
-
 
 
     }
@@ -210,6 +224,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+
     public void createNewDialog(Marker marker){
         dialogBuilder=new AlertDialog.Builder(this);
         final View missionPopUpView=getLayoutInflater().inflate(R.layout.popup,null);
@@ -249,6 +264,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);
     }
+
     @SuppressLint("MissingPermission")
     private void updateLocationUI() {
         if (mMap == null) {
